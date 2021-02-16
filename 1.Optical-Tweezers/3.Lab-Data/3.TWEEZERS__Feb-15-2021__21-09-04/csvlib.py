@@ -10,6 +10,7 @@ def list_csv(directory = '.',PRINT=False):
     ''' Returns a list of all the '.csv' files in a given directory '''
 
     x = [x for x in os.listdir(directory) if x.endswith('.csv')]
+    x = sorted(x)
     if PRINT: 
         print('List of .csv files in '+directory)
         for i,X in enumerate(x):
