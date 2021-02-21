@@ -1,0 +1,52 @@
+Excel sheets to csv using Visual Basic 
+
+# I will never use this method again :)
+# I just wanted to figure out how to run macros in Excel :)
+# and it's a no :)
+# perhaps the 'Code Editor' tool is easier, but couldn't find it in my Excel (maybe it's not enabled?)
+
+Source: https://stackoverflow.com/questions/59075/save-each-sheet-in-a-workbook-to-separate-csv-files
+
+STEPS
+
+1. Open Excel file
+
+2. Go to 'Developer' tab
+
+3. Go to 'Visual Basic' icon
+
+4. Go to Insert Module > Module
+
+5. Paste the following script
+
+***
+
+Public Sub SaveWorksheetsAsCsv()
+
+ Dim WS As Excel.Worksheet
+ Dim SaveToDirectory As String
+
+ SaveToDirectory = "./"
+
+ For Each WS In ThisWorkbook.Worksheets
+    WS.SaveAs SaveToDirectory & WS.Name & ".csv", xlCSV
+ Next
+
+End Sub
+
+***
+
+6. The files will be exported in location: 
+~/Library/Containers/com.microsoft.Excel/Data
+
+7. Close VB mode.
+
+
+Help:
+
+- There is no 'Developer' tab
+
+	1. Go to Excel > Preferences > Ribbon & Toolbar
+	2. Select 'Ribbon'
+	3. In 'Customize the Ribbon' select 'All tabs'
+	4. In the section 'Main tabs', choose 'Developer'
