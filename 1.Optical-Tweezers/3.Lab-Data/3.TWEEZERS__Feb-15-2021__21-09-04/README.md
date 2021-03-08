@@ -11,7 +11,7 @@ This section contains the data and analysis for the trapping methodology. In tha
 2. [High Res Plot](https://github.com/PanosEconomou/advanced-lab/blob/main/1.Optical-Tweezers/3.Lab-Data/3.TWEEZERS__Feb-15-2021__21-09-04/z-sawtooth.png)
 
 ## Data Naming protocol
-1. **Raw Data:** TRP_<height in μm>_<Laser Power in mA>.csv
+1. **Raw Data:** TRP\_\<height in μm\>\_\<laser power in mA\>.csv
 2. **Image Data:** TRP_<height in μm>.tiff
 
 ## Notes
