@@ -4,7 +4,7 @@
 **[Return to Main](https://github.com/PanosEconomou/advanced-lab)**
 
 ## Overview
-**DISCLAIMER: This section has been removed from our official analysis**. This section contains the data and analysis for the Power spectrum density. In that process we moved the stage with a stuck bead in a traingle wave in both x and y and we recorded to QPD output to find the relationship between the stage voltage and the QPD voltage.
+This section contains the data and analysis for the Power spectrum density. In that process we moved the stage with a stuck bead in a traingle wave in both x and y and we recorded to QPD output to find the relationship between the stage voltage and the QPD voltage.
 
 ## Contents
 1. [Analysis](https://github.com/PanosEconomou/advanced-lab/blob/main/1.Optical-Tweezers/3.Lab-Data/7.TWEEZERS__Feb-26-2021__20-36-56/7.ANALYSIS.ipynb)
