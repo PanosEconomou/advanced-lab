@@ -8,7 +8,6 @@ This section contains the data and analysis for the Drag Force Calibration. In t
 
 ## Contents
 1. [Analysis](https://github.com/PanosEconomou/advanced-lab/blob/main/1.Optical-Tweezers/3.Lab-Data/9.TWEEZERS__Mar-01-2021__01-26-35/9.ANALYSIS.ipynb)
-2. [High Res Plot](https://github.com/PanosEconomou/advanced-lab/blob/main/1.Optical-Tweezers/3.Lab-Data/6.TWEEZERS__Feb-22-2021__17-04-17/VstgVSposition.png)
 
 ## Data Naming protocol
 1. **Raw Data:** TRP_Drag_\<AXIS\>\_\<Laser Intensity in mA\>\_\<Frequency in Hz\>\_\<Amplitude in V\>\.csv
