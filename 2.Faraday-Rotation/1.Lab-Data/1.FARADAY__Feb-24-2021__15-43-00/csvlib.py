@@ -2,6 +2,7 @@
 import numpy as np 
 import os
 from datetime import datetime 
+import matplotlib.pyplot as plt
 
 # These are relevant to collecting data
 
@@ -64,4 +65,3 @@ def create_csv(name = '__time__.csv', titles = ['SAMPLE1','SAMPLE2','SAMPLE3'], 
     
     FILE.close()
     print(name+' created successfully')
-

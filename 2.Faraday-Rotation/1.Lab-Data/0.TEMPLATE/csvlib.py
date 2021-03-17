@@ -19,7 +19,7 @@ def list_csv(directory = '.',PRINT=False):
 
 
 # To create a CSV file 
-def create_csv(name = '__time__.csv', titles = ['SAMPLE1','SAMPLE2','SAMPLE3'], data = [np.array([1,2,3]),None,np.array([1.2,3.4,5.6,7.8])]):
+def create_csv(name = '__time__.csv',directory='', titles = ['SAMPLE1','SAMPLE2','SAMPLE3'], data = [np.array([1,2,3]),None,np.array([1.2,3.4,5.6,7.8])]):
     ''' Creates a '.csv' file in a given directory. '''
     
     # Handle some exceptions
@@ -42,7 +42,7 @@ def create_csv(name = '__time__.csv', titles = ['SAMPLE1','SAMPLE2','SAMPLE3'], 
             max_size = max([max_size,len(datum)])
 
     # open and create a CSV file
-    FILE = open(name,'xt')
+    FILE = open(directory+name,'xt')
 
     # First write the header:
     for i in range(len(titles)):
