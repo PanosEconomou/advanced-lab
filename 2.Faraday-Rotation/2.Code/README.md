@@ -1,4 +1,4 @@
-# Optical Tweezers | RESOURCES
+# Faraday Rotation | CODE
 **[Back to Faraday Rotation](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation)**
 
 **[Return to Main](https://github.com/PanosEconomou/advanced-lab)**
