@@ -6,14 +6,15 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import serial 
 import time
+import datetime
 from csvlib import *
 
 # GET INSTRUNMENT ############################
-def get_intstrunment(ADDRESS='USB0::0x0957::0x173D::MY50340590::0::INSTR',VERBOSE=False):
+def get_intstrunment(ADDRESS=None,VERBOSE=False):
     '''
     Get's the right parameters and returns an oscilloscope instrunment
     
-    ADDRESS (None): When given, the selected instrinmnet is connected
+    ADDRESS ('USB0::0x0957::0x173D::MY50340590::0::INSTR'): When given, the selected instrinmnet is connected
     VERBOSE (False): When True prints the list of visa addresses, and the name of the connected instrunment
 
     Returns ------------
@@ -81,7 +82,7 @@ def get_data(inst,channel=1,points=1000, acquire=True, VERBOSE=False):
 
 
 # PLOT OSCILLOSCOPE SCREEN ######################
-def plot_oscilloscope(inst,channels=[1,2,3,4],points=1000,dpi=70,VERBOSE=False):
+def plot_oscilloscope(inst,channels=[1,2,3,4],points=1000,dpi=70,VERBOSE=False,PLOT=True, save_image=False,filename=None):
     '''
     Plots the Oscilloscope Screen
     
@@ -115,7 +116,14 @@ def plot_oscilloscope(inst,channels=[1,2,3,4],points=1000,dpi=70,VERBOSE=False):
         ax.plot(t,v,c=colors[i],label='Channel %d'%channel)
         plt.legend(frameon=False)
 
-    plt.show()
+    if PLOT: plt.show()
+    if save_image:
+        if type(filename) == type(None):
+            now = datetime.now()
+            filename = now.strftime("%b-%d-%Y__%H-%M-%S.csv")
+        plt.savefig(filename,dpi=200)
+
+    return 
 
 # OUTPUT TO CSV ##################################
 def get_data_csv(inst,channels=[1,2,3,4],directory='./',filename=None,points=10000,VERBOSE=False):
@@ -166,6 +174,3 @@ def get_arduino(ADDRESS='/dev/cu.usbmodem14101',VERBOSE=False):
 
     return arduino
 
-
-# # WRITE ANGLE TO ARDUINO
-# def set_angle(arduino,angle,VERBOSE=False):

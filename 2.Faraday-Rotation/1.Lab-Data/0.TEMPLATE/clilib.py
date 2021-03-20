@@ -189,7 +189,7 @@ def move_by_angle_cw(angle, arduino,sleep=0.001,VERBOSE=False):
     '''
     # Construct the command
     AA = CMDS['move_by_angle_cw']
-    XXXX = int(angle)%360
+    XXXX = int(angle) #%360
 
     cmd = AA*10000 + XXXX
 
@@ -208,7 +208,7 @@ def move_by_angle_ccw(angle, arduino,sleep=0.001,VERBOSE=False):
     '''
     # Construct the command
     AA = CMDS['move_by_angle_ccw']
-    XXXX = int(angle)%360
+    XXXX = int(angle) #%360
 
     cmd = AA*10000 + XXXX
 
@@ -375,7 +375,7 @@ def valid(cmd):
         if XXXX < 0:
             return [False,"Angle can't be negative (and needs to be in degrees)"]
 
-        if XXXX > 360:
+        if XXXX > 360 and AA in [10,20]:
             return [False,"Angle can't be greater than 360 (and needs to be in degrees)"]
 
     if AA in [11]:
