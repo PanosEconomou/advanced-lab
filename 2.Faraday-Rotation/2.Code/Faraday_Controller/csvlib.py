@@ -19,7 +19,7 @@ def list_csv(directory = '.',PRINT=False):
 
 
 # To create a CSV file 
-def create_csv(name = '__time__.csv',directory='', titles = ['SAMPLE1','SAMPLE2','SAMPLE3'], data = [np.array([1,2,3]),None,np.array([1.2,3.4,5.6,7.8])]):
+def create_csv(name = '__time__.csv',directory='', titles = ['SAMPLE1','SAMPLE2','SAMPLE3'], data = [np.array([1,2,3]),None,np.array([1.2,3.4,5.6,7.8])], VERBOSE=False):
     ''' Creates a '.csv' file in a given directory. '''
     
     # Handle some exceptions
@@ -33,6 +33,13 @@ def create_csv(name = '__time__.csv',directory='', titles = ['SAMPLE1','SAMPLE2'
     if name == '__time__.csv': 
         now = datetime.now()
         name = now.strftime("%b-%d-%Y__%H-%M-%S.csv")
+
+    face_id = 1
+    if os.path.exists(directory+name):
+        while os.path.exists(directory+name[:name.find('.csv')]+'_%d.csv'%face_id):
+            face_id += 1
+        
+        name = name[:name.find('.csv')]+'_%d.csv'%face_id
 
     # Now get to work
     # Get the maximum height of the table
@@ -63,5 +70,5 @@ def create_csv(name = '__time__.csv',directory='', titles = ['SAMPLE1','SAMPLE2'
                 FILE.write('0'+delim)
     
     FILE.close()
-    print(name+' created successfully')
+    if VERBOSE: print(name+' created successfully')
 

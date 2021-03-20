@@ -3,9 +3,9 @@
 #include "A4988.h"
 
 #define LED_PIN 13
-#define STEP_PIN 6
-#define DIR_PIN 5
-#define STEPS 800
+#define STEP_PIN 5
+#define DIR_PIN 6
+#define STEPS 6000 //800 for just the motor
 #define SERVO_PIN 11
 
 A4988 stepper(STEPS,DIR_PIN,STEP_PIN);
@@ -131,8 +131,8 @@ void set_current_angle(int angle){
 
 
 // Set the speed of the motor
-void set_speed(int SPEED){
-  stepper.begin(SPEED, 1);
+void set_speed(int sp){
+  stepper.begin(sp, 1);
 }
 
 

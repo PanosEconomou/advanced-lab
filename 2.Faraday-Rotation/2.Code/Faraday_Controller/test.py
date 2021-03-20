@@ -16,6 +16,6 @@ arduino = serial.Serial(port='/dev/cu.usbmodem14101',baudrate=115200,timeout=0.1
 
 # arduino.close()
 
-inst = get_intstrunment()
+inst = get_intstrunment(VERBOSE=True)
 plot_oscilloscope(inst,dpi=70,VERBOSE=True)
 # get_data_csv(inst)
