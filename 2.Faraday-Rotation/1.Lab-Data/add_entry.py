@@ -20,4 +20,8 @@ os.mkdir(name)
 # Copy the tutorial directory to the new one
 copyfile('0.TEMPLATE/csvlib.py',name+'/csvlib.py')
 copyfile('0.TEMPLATE/data.csv',name+'/data.csv')
+copyfile('0.TEMPLATE/Faraday_CLI.py',name+'/Faraday_CLI.py')
+copyfile('0.TEMPLATE/oscillovisa.py',name+'/oscillovisa.py')
+copyfile('0.TEMPLATE/proceedure1.py',name+'/proceedure1.py')
+copyfile('0.TEMPLATE/clilib.py',name+'/clilib.py')
 copyfile('0.TEMPLATE/0.Template.ipynb',name+'/'+str(session_number)+'.ANALYSIS.ipynb')
