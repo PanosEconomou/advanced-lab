@@ -9,12 +9,12 @@ from tqdm import tqdm
 
 # Set the run Variables
 VERBOSE = False
-WAIT_TIME = 1
+WAIT_TIME = 0.1
 MOTOR_SPEED = 20 
-directory = './DATA/'
+directory = './RUN11/'
 min_angle = 0
-max_angle = 90
-Nangles = 20
+max_angle = 360
+Nangles = 100
 
 # GET Arduino and Oscilloscope
 arduino = get_arduino(VERBOSE=VERBOSE)
@@ -28,9 +28,8 @@ a_data = []
 # Set the speed
 set_speed(MOTOR_SPEED,arduino,VERBOSE=VERBOSE)
 
-
 # Relevant Realtime Plotting Variables
-fig = plt.figure(figsize = (10,7),dpi=100)
+fig = plt.figure(figsize = (10,7),dpi=70)
 ax = fig.add_subplot()
 
 ln, = plt.plot([], [],'+',c='darkblue',label='Raw Data')
@@ -46,6 +45,7 @@ def init():
 # The actual Experimental Proceedure
 # For all angles
 def get_measurement(a):
+    global V,V_std
     # Set the polariser
     move_to_angle(a,arduino,VERBOSE=VERBOSE)
 
@@ -59,24 +59,44 @@ def get_measurement(a):
     
     # Save the data to CSV
     get_data_csv(oscilloscope,channels=[1,2,3],directory=directory,filename='Angle-'+str(a)+'.csv')
-    plot_oscilloscope(oscilloscope,channels=[1,2,3],VERBOSE=VERBOSE,PLOT=False,save_image=True,filename=directory+'Angle-'+str(a))
+    # plot_oscilloscope(oscilloscope,channels=[1,2,3],VERBOSE=VERBOSE,PLOT=False,save_image=True,filename=directory+'Angle-'+str(a))
 
-    # Relevant Plotting stuff
-    a_data.append(a)
-    dV = max(V)-min(V)
-    da = max(a_data)-min(a_data)
-    if dV!=0 and da!=0:
-        ax.set_xlim(min(a_data)-0.1*da, max(a_data)+0.1*da)
-        ax.set_ylim(min(V)-0.1*dV, max(V)+0.1*dV)
+    # # Relevant Plotting stuff
+    # a_data.append(a)
+    # dV = max(V)-min(V)
+    # da = max(a_data)-min(a_data)
+    # if dV!=0 and da!=0:
+    #     ax.set_xlim(min(a_data)-0.1*da, max(a_data)+0.1*da)
+    #     ax.set_ylim(min(V)-0.1*dV, max(V)+0.1*dV)
 
-    ln.set_data(a_data, V)
-    return ln,
-
-# Perform the Run
-ani = FuncAnimation(fig, get_measurement, frames=tqdm(angle),interval=10,init_func=init, blit=False)
-plt.show()
+    # ln.set_data(a_data, V)
+    # return ln,
 
 # Output the values to CSV 
-V = np.array(V)
-V_std = np.array(V_std)
-create_csv(name='Voltage-Amplitude.csv',directory=directory,titles=['Angle','Voltage','Voltage_std'],data=[angle,V,V_std])
+def on_close(event):
+    global V,V_std
+    print('Done with experiment, exporting CSV')
+    V = np.array(V)
+    V_std = np.array(V_std)
+    create_csv(name='Voltage-Amplitude.csv',directory=directory,titles=['Angle','Voltage','Voltage_std'],data=[angle,V,V_std],VERBOSE=True)
+
+    
+# Perform the Run
+for a in tqdm(angle):
+    get_measurement(a)
+
+init()
+dV = max(V)-min(V)
+da = max(angle)-min(angle)
+if dV!=0 and da!=0:
+    ax.set_xlim(min(angle)-0.1*da, max(angle)+0.1*da)
+    ax.set_ylim(min(V)-0.1*dV, max(V)+0.1*dV)
+
+ln.set_data(angle, V)
+
+on_close(None)
+
+plt.savefig(directory+'Voltage-VS-Angle',dpi = 300)
+plt.show()
+# ani = FuncAnimation(fig, get_measurement, frames=tqdm(angle),interval=10,init_func=init, blit=False,repeat=False)
+# plt.show()

@@ -11,9 +11,9 @@ from tqdm import tqdm
 VERBOSE = False
 WAIT_TIME = 0.1
 MOTOR_SPEED = 20 
-directory = './RUN8/'
-min_angle = 50
-max_angle = 150
+directory = './RUN11/'
+min_angle = 0
+max_angle = 360
 Nangles = 100
 
 # GET Arduino and Oscilloscope
