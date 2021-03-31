@@ -1,0 +1,50 @@
+Phase aligned without polariser
+Low pass filter added
+LENGTH:     10.175 cm
+
+Preamp
+-------------------
+AC Coupling
+Grounded
+GAIN:   10
+
+Low Pass Filter
+-------------------
+Q:          2 (GAIN 10)
+f_course:   100-300
+f_cutoff:   150
+
+Lock-In
+-------------------
+AC-Coupling
+Splitter to Oscilloscope
+REF from Phase shifter
+LOCK-IN Mode
+GAIN:   20
+
+
+Oscillator
+-------------------
+Amplitude:  3V
+Frequency:  36.4 Hz
+Sine
+No attenuation
+OUTPUT to PHASE SHIFTER and AUDIO AMPLIFIER
+
+Phase shifter
+-------------------
+Phase-Course:   0
+Phase-Fine:     45
+
+
+Low Pass Filter Amp
+-------------------
+Time Constant:  0.03 s
+GAIN:           20
+X:              12 dB/oct
+Offset:         -0.15 V
+
+Audio AMPLIFIER
+-------------------
+DC Input
+Current:        493.9 ± 0.800 mA rms

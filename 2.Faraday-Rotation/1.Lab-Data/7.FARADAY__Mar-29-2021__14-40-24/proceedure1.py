@@ -9,9 +9,9 @@ from tqdm import tqdm
 
 # Set the run Variables
 VERBOSE = False
-WAIT_TIME = 0.1
+WAIT_TIME = 0.01
 MOTOR_SPEED = 20 
-directory = './DC_MALUS/'
+directory = './DC_VERDET_ROD/'
 min_angle = 0
 max_angle = 360
 Nangles = 360
@@ -54,12 +54,12 @@ def get_measurement(a):
     time.sleep(WAIT_TIME)
 
     # Get the measuremets
-    amplitude = get_data(oscilloscope,channel=3)
+    amplitude = get_data(oscilloscope,channel=2)
     V.append(np.mean(amplitude[0]))
     V_std.append(np.std(amplitude[0]))
     
     # Save the data to CSV
-    get_data_csv(oscilloscope,channels=[1,2,3],directory=directory,filename='Angle-'+str(a)+'.csv')
+    get_data_csv(oscilloscope,channels=[1,2],directory=directory,filename='Angle-'+str(a)+'.csv')
     # plot_oscilloscope(oscilloscope,channels=[1,2,3],VERBOSE=VERBOSE,PLOT=False,save_image=True,filename=directory+'Angle-'+str(a))
 
     # # Relevant Plotting stuff

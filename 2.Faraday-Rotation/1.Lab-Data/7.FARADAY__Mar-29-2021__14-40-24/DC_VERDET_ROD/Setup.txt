@@ -1,0 +1,3 @@
+VERDET Rod DC
+
+DC Current: 805.5 + 1.70 mA
