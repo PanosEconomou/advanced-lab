@@ -1,8 +1,10 @@
 # Waveform Simulator after passing through the signal processing
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.widgets import TextBox
 import scipy.constants as const
 import scipy.signal as signal
+import numpy.fft as fft
 from tqdm import tqdm
 
 #####################################################################################
@@ -19,8 +21,18 @@ def lowpass(sig,fc,fs,order=1):
     return signal.lfilter(coeffs[0],coeffs[1],signal)
 
 # Lock in detector
-def lock_in(sig,ref,gain=1,theta_0=0):
-    return gain*(sig-theta_0)*(ref)
+def lock_in(sig,ref,ref_shifted,ref_freq,time,gain=1):
+    fs = len(time)/(max(time)-min(time))
+    T = len(time)/fs
+    
+    X = np.sum(sig*ref/fs)*2/T
+    Y = np.sum(sig*ref_shifted/fs)*2/T
+
+    R   = (X**2+Y**2)**0.5
+    phi = np.arctan(Y/X)
+
+
+    return gain*(R*np.cos(2*np.pi*ref_freq*time+phi))*np.sign(ref)
 
 # low pass amplifier
 def lowpass_amp(sig,time_constant,fs,gain=1):
@@ -45,55 +57,72 @@ def polariser(sig,delta_theta=0,amplitude=1):
 #####################################################################################
 
 # Relevant Constants
-Npts            = 10000                 # Number of sampling points
-t_min           = 0                     # Minimum Time in s
-t_max           = 3                     # Maximum Time in s
-fs              = Npts/(t_max-t_min)    # Sampling Frequency
-ANG_amplitude   = 0.1                   # Amplitude of roration angle
-ANG_frequency   = 2                     # Frequency of rotation angle
-ANG_phase       = 0                     # Phase of rotation angle
-ANG_offset      = 0                     # Offset of rotation angle
-polariser_angle = 0                     # Polariser Angle
-sig_amplitude   = 1                     # Conversion from angle to signal amplitude
-noise_amplitude = 0.1                   # Amplitude of white noise
-preamp_gain     = 1                     # Gain of preamplifier
-lpf_fc          = 1                     # Low pass filter cuttoff frequency in Hz
-ref_phase       = 0                     # Phase of reference signal
-lock_in_gain    = 1                     # Lock in gain
-time_constant   = 1                     # Low pass filter amplifier time constant
-
-
+params = {
+    "Npts"            : 10000,                 # Number of sampling points
+    "t_min"           : 0,                     # Minimum Time in s
+    "t_max"           : 3,                     # Maximum Time in s
+    "ANG_amplitude"   : 0.1,                   # Amplitude of roration angle
+    "ANG_frequency"   : 2,                     # Frequency of rotation angle
+    "ANG_phase"       : 0,                     # Phase of rotation angle
+    "ANG_offset"      : np.pi/4,                     # Offset of rotation angle
+    "polariser_angle" : 0,                     # Polariser Angle
+    "sig_amplitude"   : 1,                     # Conversion from angle to signal amplitude
+    "noise_amplitude" : 0.1,                   # Amplitude of white noise
+    "preamp_gain"     : 1,                     # Gain of preamplifier
+    "lpf_fc"          : 1,                     # Low pass filter cuttoff frequency in Hz
+    "ref_phase"       : 0,                     # Phase of reference signal
+    "lock_in_gain"    : 1,                     # Lock in gain
+    "time_constant"   : 1,                     # Low pass filter amplifier time constant
+}
 
 # Generate Signal
-time    = np.linspace(t_min,t_max,Npts)
-ang     = oscillator(time,ANG_frequency,ANG_amplitude,ANG_phase,ANG_offset)
-sig_raw = polariser(ang,polariser_angle,sig_amplitude) # + white_noise(time,noise_amplitude)
-sig_pre = preamp(sig_raw,preamp_gain)
+def get_signal(pars):
+    time    = np.linspace(pars["t_min"],pars["t_max"],pars["Npts"])
+    ang     = oscillator(time,pars["ANG_frequency"],pars["ANG_amplitude"],pars["ANG_phase"],pars["ANG_offset"])
+    sig_raw = polariser(ang,pars["polariser_angle"],pars["sig_amplitude"]) # + white_noise(time,noise_amplitude)
+    sig_pre = preamp(sig_raw,pars["preamp_gain"])
 
-ref     = oscillator(time,ANG_frequency,1,ref_phase)
+    ref     = oscillator(time,pars["ANG_frequency"],1,pars["ref_phase"])
+    ref_sh  = oscillator(time,pars["ANG_frequency"],1,pars["ref_phase"]+np.pi)
 
-sig_loc = lock_in(sig_pre,ref,lock_in_gain)
-sig_lpa = np.mean(sig_loc)*np.ones(time.shape)
+    sig_loc = lock_in(sig_pre,ref,ref_sh,pars["ANG_frequency"],time,pars["lock_in_gain"])
+    sig_lpa = np.mean(sig_loc)*np.ones(time.shape)
 
-thetas = np.linspace(0,2*np.pi,100)
-voltage = []
-for theta in thetas:
-    ang     = oscillator(time,ANG_frequency,ANG_amplitude,ANG_phase,theta)
-    sig_raw = polariser(ang,polariser_angle,sig_amplitude) # + white_noise(time,noise_amplitude)
-    sig_pre = preamp(sig_raw,preamp_gain)
+    return time,ang,ref,sig_raw,sig_pre,sig_loc,sig_lpa
 
-    ref     = oscillator(time,ANG_frequency,1,ref_phase)
+time,ang,ref,sig_raw,sig_pre,sig_loc,sig_lpa = get_signal(params)
 
-    sig_loc = lock_in(sig_pre,ref,lock_in_gain,theta_0=polariser(preamp(theta)))
-    voltage.append(np.mean(sig_loc))
+fig = plt.figure(figsize=(10,6),dpi=120)
+ax = fig.add_subplot(111)
 
-voltage=np.array(voltage)
-plt.plot(thetas,voltage)
+l,= ax.plot(time,sig_loc,label='Lock-in')
 
-# plt.plot(time,ang)
-# plt.plot(time,ref)
-# plt.plot(time,sig_pre)
-# plt.plot(time,sig_loc)
-# plt.plot(time,sig_lpa)
+def on_theta(text):
+    theta = float(text)
+    params['ANG_offset'] = np.pi/180*theta
+    time,ang,ref,sig_raw,sig_pre,sig_loc,sig_lpa = get_signal(params)
+    l.set_ydata(sig_loc)
+    plt.draw()
 
+def on_phase(text):
+    phase = float(text)
+    params['ref_phase'] = np.pi/180*phase
+    time,ang,ref,sig_raw,sig_pre,sig_loc,sig_lpa = get_signal(params)
+    l.set_ydata(sig_loc)
+    plt.draw()
+
+theta_box = plt.axes([0.1, 0.0, 0.1, 0.075])
+theta_text_box = TextBox(theta_box, 'Theta', initial='0')
+theta_text_box.on_submit(on_theta)
+
+phase_box = plt.axes([0.5, 0.0, 0.1, 0.075])
+phase_text_box = TextBox(phase_box, 'Phase', initial='0')
+phase_text_box.on_submit(on_phase)
+
+# ax.plot(time,ang,label='Angle')
+# ax.plot(time,ref,label='Reference')
+# ax.plot(time,sig_pre,label='Preamp')
+
+
+plt.legend(frameon=False)
 plt.show()
