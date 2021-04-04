@@ -53,11 +53,12 @@ def lock_in(sig,ref,time,ref_freq,sigma=0,ref_shifted=None,gain=1):
 
     else:
         F = fft.fft(sig - np.mean(sig))
-        F_freq = fft.fftfreq(len(sig),d=1/fs)
+        F_freq = fft.fftfreq(len(F),d=1/fs)
         G  = (np.exp(-(F_freq-ref_freq)**2/sigma**2)+np.exp(-(F_freq+ref_freq)**2/sigma**2))
 
-        FF = abs(fft.ifft(F*G))
-        return gain*FF*np.sign(ref)
+        FF = fft.ifft(F*G)
+        FFF = FF.real + FF.imag
+        return gain*FFF*np.sign(ref)
 
     
 
@@ -97,6 +98,7 @@ params = {
     "noise_amplitude" : 0.1,                   # Amplitude of white noise
     "noise_min_freq"  : 0,                     # Minimum Frequency for noise
     "noise_max_freq"  : 0,                     # Maximum Frequency for noise
+    "Noise_fs"        : 1,                     # Noise Sample Rate
     "preamp_gain"     : 1,                     # Gain of preamplifier
     "lpf_fc"          : 1,                     # Low pass filter cuttoff frequency in Hz
     "ref_phase"       : 0,                     # Phase of reference signal
@@ -115,7 +117,7 @@ def get_signal(pars=params):
     ang     = oscillator(time,pars["ANG_frequency"],pars["ANG_amplitude"],pars["ANG_phase"],pars["ANG_offset"])
 
     # Get the signal from the optical sensor after it has passed from the polariser and pre amplifier (also add some noise)
-    sig_raw = polariser(ang,pars["polariser_angle"],pars["sig_amplitude"]) + pars["noise_amplitude"]*band_limited_noise(pars["noise_min_freq"],pars["noise_max_freq"], samples=pars["Npts"], samplerate=10000000) # + white_noise(time,pars["noise_amplitude"])
+    sig_raw = polariser(ang,pars["polariser_angle"],pars["sig_amplitude"]) + pars["noise_amplitude"]*band_limited_noise(pars["noise_min_freq"],pars["noise_max_freq"], samples=pars["Npts"], samplerate=pars["Noise_fs"]) + white_noise(time,pars["noise_amplitude"])
     sig_pre = preamp(sig_raw,pars["preamp_gain"])
 
     # Generate the reference signal at the same frequency
@@ -123,8 +125,8 @@ def get_signal(pars=params):
     ref_sh  = oscillator(time,pars["ANG_frequency"],1,pars["ref_phase"]+np.pi)
 
     # Pass the signal through the lock in amplifier
-    # sig_loc = lock_in(sig_pre,ref,time,pars["ANG_frequency"],sigma=pars["lock_in_std"],gain=pars["lock_in_gain"])
-    sig_loc = lock_in(sig_pre,ref,time,pars["ANG_frequency"],sigma=0,ref_shifted=ref_sh,gain=pars["lock_in_gain"])
+    sig_loc = lock_in(sig_pre,ref,time,pars["ANG_frequency"],sigma=pars["lock_in_std"],gain=pars["lock_in_gain"])
+    # sig_loc = lock_in(sig_pre,ref,time,pars["ANG_frequency"],sigma=0,ref_shifted=ref_sh,gain=pars["lock_in_gain"])
 
     # Pass it thorugh the low pass filter amplifier
     sig_lpa = np.mean(sig_loc)*np.ones(time.shape)
