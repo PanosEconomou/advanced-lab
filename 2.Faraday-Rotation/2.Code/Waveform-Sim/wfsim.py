@@ -57,7 +57,7 @@ def lock_in(sig,ref,time,ref_freq,sigma=0,ref_shifted=None,gain=1):
         G  = (np.exp(-(F_freq-ref_freq)**2/sigma**2)+np.exp(-(F_freq+ref_freq)**2/sigma**2))
 
         FF = fft.ifft(F*G)
-        FFF = FF.real + FF.imag
+        FFF = FF.real
         return gain*FFF*np.sign(ref)
 
     
@@ -86,16 +86,19 @@ def polariser(sig,delta_theta=0,amplitude=1):
 
 # Relevant Constants
 params = {
-    "Npts"            : 10000,                 # Number of sampling points
+    "Npts"            : 100000,                # Number of sampling points
     "t_min"           : 0,                     # Minimum Time in s
-    "t_max"           : 3,                     # Maximum Time in s
+    "t_max"           : 100,                   # Maximum Time in s
     "ANG_amplitude"   : 0.1,                   # Amplitude of roration angle
-    "ANG_frequency"   : 2,                     # Frequency of rotation angle
+    "ANG_frequency"   : 3,                     # Frequency of rotation angle
     "ANG_phase"       : 0,                     # Phase of rotation angle
-    "ANG_offset"      : np.pi/4,               # Offset of rotation angle
+    "ANG_offset"      : np.pi*45/180,          # Offset of rotation angle
+    "BG_amplitude"    : 0.03,                  # Amplitude of Background signal
+    "BG_frequency"    : 3,                     # Frequency of Background signal
+    "BG_phase"        : np.pi/2,               # Phase of Background signal
     "polariser_angle" : 0,                     # Polariser Angle
     "sig_amplitude"   : 1,                     # Conversion from angle to signal amplitude
-    "noise_amplitude" : 0.1,                   # Amplitude of white noise
+    "noise_amplitude" : 0.01,                  # Amplitude of white noise
     "noise_min_freq"  : 0,                     # Minimum Frequency for noise
     "noise_max_freq"  : 0,                     # Maximum Frequency for noise
     "Noise_fs"        : 1,                     # Noise Sample Rate
@@ -103,7 +106,7 @@ params = {
     "lpf_fc"          : 1,                     # Low pass filter cuttoff frequency in Hz
     "ref_phase"       : 0,                     # Phase of reference signal
     "lock_in_gain"    : 1,                     # Lock in gain
-    "lock_in_std"     : 3,                     # Lock in standard deviation
+    "lock_in_std"     : 2,                     # Lock in standard deviation
     "time_constant"   : 1,                     # Low pass filter amplifier time constant
 }
 
@@ -116,8 +119,16 @@ def get_signal(pars=params):
     # Set an arbitrary polarisation angle for the light before the polariser
     ang     = oscillator(time,pars["ANG_frequency"],pars["ANG_amplitude"],pars["ANG_phase"],pars["ANG_offset"])
 
+    # Obtain some noise
+    noise_freq  = pars["noise_amplitude"]*band_limited_noise(pars["noise_min_freq"],pars["noise_max_freq"], samples=pars["Npts"], samplerate=pars["Noise_fs"])
+    noise_white = white_noise(time,pars["noise_amplitude"])
+    noise       = noise_freq+noise_white
+
+    # Create a background signal 
+    bg_sig = oscillator(time,pars["BG_frequency"],pars["BG_amplitude"],pars['BG_phase']*np.sin(4*pars["ANG_offset"]) - np.pi/2)
+
     # Get the signal from the optical sensor after it has passed from the polariser and pre amplifier (also add some noise)
-    sig_raw = polariser(ang,pars["polariser_angle"],pars["sig_amplitude"]) + pars["noise_amplitude"]*band_limited_noise(pars["noise_min_freq"],pars["noise_max_freq"], samples=pars["Npts"], samplerate=pars["Noise_fs"]) + white_noise(time,pars["noise_amplitude"])
+    sig_raw = polariser(ang,pars["polariser_angle"],pars["sig_amplitude"]) + noise + bg_sig
     sig_pre = preamp(sig_raw,pars["preamp_gain"])
 
     # Generate the reference signal at the same frequency
@@ -134,34 +145,3 @@ def get_signal(pars=params):
     return time,ang,ref,sig_raw,sig_pre,sig_loc,sig_lpa
 
 # time,ang,ref,sig_raw,sig_pre,sig_loc,sig_lpa = get_signal(params)
-
-# fig = plt.figure(figsize=(10,6),dpi=120)
-# ax = fig.add_subplot(111)
-
-# l,= ax.plot(time,sig_loc,label='Lock-in')
-
-# def on_theta(text):
-#     theta = float(text)
-#     params['ANG_offset'] = np.pi/180*theta
-#     time,ang,ref,sig_raw,sig_pre,sig_loc,sig_lpa = get_signal(params)
-#     l.set_ydata(sig_loc)
-#     plt.draw()
-
-# def on_phase(text):
-#     phase = float(text)
-#     params['ref_phase'] = np.pi/180*phase
-#     time,ang,ref,sig_raw,sig_pre,sig_loc,sig_lpa = get_signal(params)
-#     l.set_ydata(sig_loc)
-#     plt.draw()
-
-# theta_box = plt.axes([0.1, 0.0, 0.1, 0.075])
-# theta_text_box = TextBox(theta_box, 'Theta', initial='0')
-# theta_text_box.on_submit(on_theta)
-
-# phase_box = plt.axes([0.5, 0.0, 0.1, 0.075])
-# phase_text_box = TextBox(phase_box, 'Phase', initial='0')
-# phase_text_box.on_submit(on_phase)
-
-
-# plt.legend(frameon=False)
-# plt.show()

@@ -1,5 +1,5 @@
 Phase aligned without polariser
-LENGTH:     10.175 cm
+LENGTH:     10.175 ± 0.005 cm
 
 Preamp
 -------------------

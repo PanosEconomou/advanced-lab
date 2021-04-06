@@ -1,3 +1,4 @@
 VERDET Rod DC
 
+LENGTH:     10.175 ± 0.005 cm
 DC Current: 805.5 + 1.70 mA
