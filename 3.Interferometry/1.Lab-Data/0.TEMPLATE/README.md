@@ -1,6 +1,6 @@
 # Model Interferometry | Lab-Session #0
 
-**[Return to Lab Data](https://github.com/PanosEconomou/advanced-lab/tree/main/3.Interferometry/1.Lab-Data)**
+**[Return to Lab Data](https://github.com/PanosEconomou/advanced-lab/tree/main/3.Interferometry/1.Lab-Data)**\
 **[Return to Main](https://github.com/PanosEconomou/advanced-lab)**
 
 This is a digital lab notebook entry for the Model Interferometry Lab
