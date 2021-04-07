@@ -12,7 +12,7 @@ All Data collected as part of the model interferometry experiment including
 ## Lab Notebook
 Our lab notebook entries are compiled here for this experiment.
 Each directory's README file contains the lab book entry.
-1. **[Mon Apr 2, 2021](https://github.com/PanosEconomou/advanced-lab/tree/main/3.Interferometry/1.Lab-Data/1.FARADAY__Apr-02-2021__11-27-16)**
+1. **[Mon Apr 2, 2021](https://github.com/PanosEconomou/advanced-lab/tree/main/3.Interferometry/1.Lab-Data/1.INTERFEROMETRY__Apr-02-2021__11-27-16)**
 2. **[Wed Apr 7, 2021]**
 
 ## Notes
