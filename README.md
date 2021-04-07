@@ -7,4 +7,4 @@ The repository is shaped as such:
 
 1. [Optical Tweezers](https://github.com/PanosEconomou/advanced-lab/tree/main/1.Optical-Tweezers)
 2. [Faraday Rotation](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation)
-3. [Model Interferometry]()
+3. [Model Interferometry](https://github.com/PanosEconomou/advanced-lab/tree/main/3.Interferometry)
