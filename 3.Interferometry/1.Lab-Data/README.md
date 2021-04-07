@@ -1,5 +1,5 @@
 # Model Interferometry | Lab Data
-**[Return to Interferometry](https://github.com/PanosEconomou/advanced-lab/tree/main/3.Interferometry)**
+**[Return to Interferometry](https://github.com/PanosEconomou/advanced-lab/tree/main/3.Interferometry)**\
 **[Return to Main](https://github.com/PanosEconomou/advanced-lab)**
 
 ## Overview
