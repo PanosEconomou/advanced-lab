@@ -5,7 +5,7 @@ from datetime import datetime
 from shutil import copyfile
 
 # IDENTIFIER
-CODENAME = 'FARADAY'
+CODENAME = 'INTERFEROMETRY'
 
 # Get the lab session number
 session_number = max([int(x[0]) for x in os.listdir('.') if x[1] == '.']) + 1
