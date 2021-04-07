@@ -9,7 +9,7 @@ All resources that are related to the Model Interferometry experiment can be fou
 - Lab notebook entries
 
 ## Contents
-1. **[Lab-Data](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/1.Lab-Data)**  
+1. **[Lab-Data](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Interferometry/1.Lab-Data)**  
   Contains all the Raw data collected with the apparatus as well as analysis scripts
 
 ## Notes
