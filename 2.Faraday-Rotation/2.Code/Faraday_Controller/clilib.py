@@ -290,7 +290,6 @@ def help():
         print(bold('\n-> '+pair[0]))
         print(pair[1].__doc__[1:int(pair[1].__doc__.index('\n',1))])
 
-        
 
 
 # FUNCTION DICTIONARY
@@ -454,3 +453,14 @@ def parse_input(msg,arduino,oscilloscope,sleep=0.001,VERBOSE=False):
                 return FCMDS[msg](oscilloscope,VERBOSE=VERBOSE)
             else:
                 return FCMDS[msg]()
+
+temp = []
+res = dict()
+for key, val in FCMDS.items():
+    if val not in temp:
+        temp.append(val)
+        res[key] = val
+
+for pair in res.items():
+    print("\\item \\textbf{"+pair[0].replace('_','\\_')+"}")
+    print('\\begin{verbatim}'+pair[1].__doc__+'\\end{verbatim}')
