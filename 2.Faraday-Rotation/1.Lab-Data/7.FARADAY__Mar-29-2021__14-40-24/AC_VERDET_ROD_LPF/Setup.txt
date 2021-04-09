@@ -2,6 +2,11 @@ Phase aligned without polariser
 Low pass filter added
 LENGTH:     10.175 cm
 
+Channel 1: Current
+Channel 2: Preamp
+Channel 3: Lock in OUTPUT
+Channel 4: Lock in INPUT
+
 Preamp
 -------------------
 AC Coupling
