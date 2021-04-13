@@ -461,6 +461,6 @@ for key, val in FCMDS.items():
         temp.append(val)
         res[key] = val
 
-for pair in res.items():
-    print("\\item \\textbf{"+pair[0].replace('_','\\_')+"}")
-    print('\\begin{verbatim}'+pair[1].__doc__+'\\end{verbatim}')
+# for pair in res.items():
+#     print("\\item \\textbf{"+pair[0].replace('_','\\_')+"}")
+#     print('\\begin{verbatim}'+pair[1].__doc__+'\\end{verbatim}')
