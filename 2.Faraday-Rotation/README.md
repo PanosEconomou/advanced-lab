@@ -20,7 +20,8 @@ All resources that are related to the Faraday Rotation experiment can be found h
   Contains all the Code that we wrote. Includes: API to interface with polarizer motor, interface with Oscilloscope, Custom Libraries, CLI and control scripts
 3. **[3D Models](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/3.3D-Models)**  
   Contains the 3D Models we designed to upgrade the experiment to being autonomous, as well as their renders.
-4. **[Report]()**
+4. **[Report](https://github.com/PanosEconomou/advanced-lab/blob/main/2.Faraday-Rotation/4.Report-Media/Faraday_Rotation_Report.pdf)**  
+  The Final report pdf can be found here.
 
 ## Description
 
