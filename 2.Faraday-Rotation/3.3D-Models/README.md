@@ -15,4 +15,4 @@ Here is the final render of the complete assembly
 
 Here is the final, 3D printed hardware
 
-![final](renders/real.png)
+![final](Renders/real.png)
