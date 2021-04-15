@@ -16,11 +16,10 @@ All the code developed for the lab can be found here, as well as installation in
 ## Contents
 
 1. [**Arduino CLI Parser**](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Arduino_CLI_Parser)
-2. [**Arduino Handshake** *(Depreciated)*](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Arduino_Handshake)
-3. [**Arduino Python Control** *(Depreciated)*](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Arduino_Python_Control)
-4. [**Faraday CLI**](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Faraday_Controller)
-5. [**Oscillovisa**](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Visa_Files)
-6. [**Waveform Sim**](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Waveform-Sim)
+2. [**Faraday CLI**](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Faraday_Controller)
+3. [**Waveform Sim**](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Waveform-Sim)
+4. [**Arduino Handshake** *(Depreciated)*](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Arduino_Handshake)
+5. [**Arduino Python Control** *(Depreciated)*](https://github.com/PanosEconomou/advanced-lab/tree/main/2.Faraday-Rotation/2.Code/Arduino_Python_Control)
 
 ## Notes
 
